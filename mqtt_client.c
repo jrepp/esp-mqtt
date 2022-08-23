@@ -1515,6 +1515,7 @@ static void esp_mqtt_task(void *pv)
         client->config->port = esp_transport_get_default_port(client->transport);
     }
 
+    esp_task_wdt_add(NULL);
     client->state = MQTT_STATE_INIT;
     xEventGroupClearBits(client->status_bits, STOPPED_BIT);
     while (client->run) {
@@ -1636,6 +1637,7 @@ static void esp_mqtt_task(void *pv)
             }
         }
 
+        esp_task_wdt_reset();
     }
     esp_transport_close(client->transport);
     outbox_delete_all_items(client->outbox);
