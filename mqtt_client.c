@@ -14,6 +14,10 @@
 #include <errno.h>
 #include <string.h>
 
+#ifdef MQTT_ENABLE_TASK_WDT
+#include "esp_task_wdt.h"
+#endif
+
 #include "mqtt_supported_features.h"
 
 /* using uri parser */
@@ -1413,6 +1417,7 @@ static void esp_mqtt_task(void *pv)
 
     // add the watch dog timer to the task
 #ifdef MQTT_ENABLE_TASK_WDT
+    ESP_LOGD(TAG, "MQTT enabled watchdog timer");
     esp_task_wdt_add(NULL);
 #endif
 
